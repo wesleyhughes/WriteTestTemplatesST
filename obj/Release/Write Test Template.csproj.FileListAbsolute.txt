@@ -1,0 +1,13 @@
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Release\Write Test Template.exe.config
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Release\Write Test Template.exe
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Release\Write Test Template.pdb
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Release\Newtonsoft.Json.dll
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Release\Newtonsoft.Json.xml
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write_Test_Template.TemplateGenerator.resources
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write_Test_Template.Properties.Resources.resources
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write Test Template.csproj.GenerateResource.cache
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write Test Template.csproj.CoreCompileInputs.cache
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write Test Template.csproj.CopyComplete
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write Test Template.exe
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write Test Template.pdb
+C:\Users\Wesley\Source\Repos\Write Test Template\obj\Release\Write Test Template.csprojAssemblyReference.cache
