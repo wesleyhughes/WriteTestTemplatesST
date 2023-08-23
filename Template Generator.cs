@@ -16,7 +16,7 @@ namespace Write_Test_Template
         private void Form1_Load(object sender, EventArgs e)
         {
             textBox3.ReadOnly = true;
-            textBox4.Text = @"C:\Library_TestAutomation\Tests\TestTemplates";
+            textBox4.Text = @"C:\Users\Wesley\Source\Repos\Write Test Template\Test Templates";
         }
         public async void button1_Click(object sender, EventArgs e)
         {

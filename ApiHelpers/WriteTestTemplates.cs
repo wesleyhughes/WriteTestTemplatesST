@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
-using API;
+using Api;
 using System.Threading.Tasks;
 using System.Linq;
 
@@ -17,8 +17,8 @@ namespace Write_Test_Template
             string name = testSuiteData.fields.Title;
             string fileName = FormatNameForFilename(name);
             string className = FormatNameForMethod(name);
-            string[] openingLines = { "using API;","using System;","using TbhPageObjects;", "using Xunit;", "", "namespace Tests",
-                "{", "    public class " + className + " : BaseTest", "    {","        ApiHelpers apiHelpers = new ApiHelpers();" };
+            string[] openingLines = { "using API;","using System;", "using Xunit;", "", "namespace Tests",
+                "{", "    public class " + className, "    {","        ApiHelpers apiHelpers = new ApiHelpers();" };
             string[] closingLines = { "    }", "}" };
             int[] testCases = await GetTestCasesFromSuite(testSuiteID, testPlanID);
            
@@ -28,43 +28,20 @@ namespace Write_Test_Template
                 {
                     testFile.WriteLine(line);
                 }
-                testFile.WriteLine("            ");
-                string testCompany;
-                List<string> testCompanies = new List<string>();
-                foreach (int testCaseID in testCases)
-                {
-                    
-                    WorkItemResponse testData = await GetWorkItem(testCaseID);
-                    testCompany = testData.fields.TestCompany;
-                    testCompanies.Add(testCompany);
-                    
-                }
-
-                testCompanies = testCompanies.Distinct().ToList();
-                int i = 1;
-                foreach (string company in testCompanies)
-                {
-                    if (i == 1)
-                    {
-                        testFile.WriteLine("        string testCompany = \"" + company + "\";");
-                    }
-                    else
-                    {
-                        testFile.WriteLine("        string testCompany" + i + " = \"" + company + "\";");
-                    }
-                    i++;
-                }
+                
                 testFile.WriteLine("            ");
                 testFile.WriteLine("        [Fact]");
                 testFile.WriteLine("        public void RunAll()");
                 testFile.WriteLine("        {");
                 testFile.WriteLine("            apiHelpers.RunTestAndPostResult(new Action[]{");
+
                 foreach (int testCaseID in testCases)
                 {
                     WorkItemResponse testData = await GetWorkItem(testCaseID);
                     string testName = FormatNameForMethod(testData.fields.Title);
                     testFile.WriteLine("                " + testName + ", ");
                 }
+
                 testFile.WriteLine("                },");
                 string testCases2 = string.Join(",", testCases);
                 testFile.WriteLine("                new int[]{" + string.Join(",", testCases2) + "},");
@@ -82,10 +59,12 @@ namespace Write_Test_Template
                     testFile.WriteLine("            ");
                     testFile.WriteLine("        }");
                 }
+
                 foreach (string line in closingLines)
                 {
                     testFile.WriteLine(line);
                 }
+
                 testFile.Flush();
                 testFile.Close();
             }

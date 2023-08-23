@@ -11,3 +11,11 @@ C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Wesley\Source\Repos\Write Test Template\obj\Debug\Write Test Template.csproj.CopyComplete
 C:\Users\Wesley\Source\Repos\Write Test Template\obj\Debug\Write_Test_Template.TemplateGenerator.resources
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Security.AccessControl.dll
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Security.Permissions.dll
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Security.Principal.Windows.dll
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Security.AccessControl.xml
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Security.Permissions.xml
+C:\Users\Wesley\Source\Repos\Write Test Template\bin\Debug\System.Security.Principal.Windows.xml

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
@@ -10,12 +11,22 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
-namespace API
+namespace Api
 {
     public partial class ApiHelpers
     {
-        string AZURE_DEVOPS_AUTHORIZATION_TOKEN = "c4cij3fpebgltasvwrqsjhtoseyn6gvmqz47dkglwkt73ts3tuca";
+        private string _azureDevOpsUserAuthToken = ConfigurationManager.AppSettings["AzureDevOpsUserAuthToken"].ToString();
+
+        private Uri ApiBaseUri()
+        {
+            string organization = ConfigurationManager.AppSettings["AzureDevOpsOrganization"].ToString();
+            string project = ConfigurationManager.AppSettings["AzureDevOpsProject"].ToString();
+
+            return new Uri($"https://dev.azure.com/{organization}/{project}/_apis");
+        }
+
         // believe this is how it assigns the test runner in devops
         public TestResult TestResultParameters(int testCaseID, int testSuiteID, int testPlanID, string testOutcome, string testLog, int resultIndex, int testRunID, int duration = 0)
         {
@@ -33,6 +44,7 @@ namespace API
             };
             return testResult;
         }
+
         public PostTestRun TestRunParameters(string testName, int testCaseID, int testSuiteID, int testPlanID)
         {
             PostTestRun testRun = new PostTestRun
@@ -45,13 +57,12 @@ namespace API
             };
             return testRun;
         }
-       
-
-       
+         
         public async Task<int> GetPoint(int testCaseID, int testSuiteID, int testPlanID)
         {
             var json = "{'PointsFilter': {'TestcaseIds': ['" + testCaseID + "']}}";
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
+            Uri requestUri = new Uri($"{ApiBaseUri()}/test/points?api-version=5.0-preview.2");
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(
@@ -59,9 +70,8 @@ namespace API
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(
                         System.Text.ASCIIEncoding.ASCII.GetBytes(
-                            string.Format("{0}:{1}", "", AZURE_DEVOPS_AUTHORIZATION_TOKEN))));
-                using (HttpResponseMessage response = await client.PostAsync(
-                            "https://dev.azure.com/allsynx/systems/_apis/test/points?api-version=5.0-preview.2", requestBody))
+                            string.Format("{0}:{1}", "", _azureDevOpsUserAuthToken))));
+                using (HttpResponseMessage response = await client.PostAsync(requestUri, requestBody))
                 {
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
@@ -84,6 +94,8 @@ namespace API
         public async Task<int[]> GetTestCasesFromSuite(int testSuiteID, int testPlanID)
         {
             List<int> testCases = new List<int>();
+            Uri requestUri = new Uri($"{ApiBaseUri()}/test/Plans/{testPlanID}/suites/{testSuiteID}/testcases?api-version=5.0");
+
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(
@@ -91,11 +103,10 @@ namespace API
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(
                         System.Text.ASCIIEncoding.ASCII.GetBytes(
-                            string.Format("{0}:{1}", "", AZURE_DEVOPS_AUTHORIZATION_TOKEN))));
+                            string.Format("{0}:{1}", "", _azureDevOpsUserAuthToken))));
                 try
                 {
-                    using (HttpResponseMessage response = await client.GetAsync(
-                                "https://dev.azure.com/allsynx/systems/_apis/test/Plans/" + testPlanID + "/suites/" + testSuiteID + "/testcases?api-version=5.0"))
+                    using (HttpResponseMessage response = await client.GetAsync(requestUri))
                     {
                         response.EnsureSuccessStatusCode();
                         string responseBody = await response.Content.ReadAsStringAsync();
@@ -117,8 +128,10 @@ namespace API
             int[] testCaseIds = testCases.ToArray();
             return testCaseIds;
         }
+
         public async Task<WorkItemResponse> GetWorkItem(int workItemID)
         {
+            Uri requestUri = new Uri($"{ApiBaseUri()}/wit/workItems/{workItemID.ToString()}");
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(
@@ -126,9 +139,8 @@ namespace API
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
                     Convert.ToBase64String(
                         System.Text.ASCIIEncoding.ASCII.GetBytes(
-                            string.Format("{0}:{1}", "", AZURE_DEVOPS_AUTHORIZATION_TOKEN))));
-                using (HttpResponseMessage response = await client.GetAsync(
-                            "https://dev.azure.com/allsynx/systems/_apis/wit/workItems/" + workItemID.ToString()))
+                            string.Format("{0}:{1}", "", _azureDevOpsUserAuthToken))));
+                using (HttpResponseMessage response = await client.GetAsync(requestUri))
                 {
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();

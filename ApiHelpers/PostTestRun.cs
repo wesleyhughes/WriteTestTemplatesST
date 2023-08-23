@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace API
+namespace Api
 {
     [DataContract]
     public class Plan

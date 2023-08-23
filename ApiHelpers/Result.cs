@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System;
 
-namespace API
+namespace Api
 {
     [DataContract]
     public class TestResult
